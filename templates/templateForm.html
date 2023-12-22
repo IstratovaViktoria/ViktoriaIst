@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<form method="post" class="mx-auto text-light" style="width: 500px">
+    <h1 class="display-4 text-light text-center">Добавить магазин</h1>
+    {% csrf_token %}
+    <div class="row g-3">
+        <div class="col">
+            {{ form.number|as_crispy_field }}
+        </div>
+        <div class="col">
+            {{ form.name|as_crispy_field }}
+        </div>
+    </div>
+    <div class="row g-3">
+        <div class="col">
+            {{ form.cost|as_crispy_field }}
+        </div>
+        <div class="col">
+            {{ form.location|as_crispy_field }}
+        </div>
+    </div>
+    {{ form.literature|as_crispy_field }}
+    <div class="text-center">
+        <button type="submit" id="store_button" class="btn btn-secondary">Добавить</button>
+    </div>
+</form>
+{% block javascript %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#id_number').keyup(function () {
+                $.ajax(
+                    {
+                        data: $(this).serialize(),
+                        url: "{% url 'check_store_number' name_literature %}",
+                        success:
+                            function (response){
+                                if ($('#numberError').length == 0)
+                                    $('#id_number').after('<div class="invalid-feedback d-block" id="numberError">Это имя пользователя уже используется</div>');
+                                if (response.exist == true) {
+                                    $('#id_number').removeClass('is-valid').addClass('is-invalid');
+                                    $('#numberError').removeClass('valid-feedback').addClass('invalid-feedback').text("Магазин с таким номером уже существует");
+                                    $('#store_button').prop('disabled', true);
+                                }
+                                else{
+                                    $('#id_number').removeClass('is-invalid').addClass('is-valid');
+                                    $('#numberError').removeClass('invalid-feedback').addClass('valid-feedback').text("Магазин можно добавить");
+                                    $('#store_button').prop('disabled', false);
+                                }
+                            },
+                        error: function (response){
+                            console.log(response.responseJSON.errors);
+                        }
+                    });
+                return false;
+            });
+        });
+    </script>
+{% endblock javascript %}
+{% endblock %}
+</body>
+</html>

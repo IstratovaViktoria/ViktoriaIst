@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>:)</title>
+    {% extends "base.html" %}
+    {% load static %}
+    <link rel = "stylesheet" type="text/css" href="{% static 'show_info.css' %}"/>
+</head>
+<body>
+{% block content %}
+   <div class="container">
+        <div class="position-absolute start-50 translate-middle d-grip gap-2 d-md-flex justify-content-md-end" style="margin-top: 45vh">
+            {% for publishing in publishings %}
+                <a href="{% url 'book_fromPublishing' name_literature publishing.id %}" class="btn btn-primary" type="button">{{ publishing.name }}</a>
+            {% endfor %}
+        </div>
+   </div>
+{% endblock %}
+</body>
+</html>

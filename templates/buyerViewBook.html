@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>:)</title>
+    {% extends "base.html" %}
+    {% load static %}
+    <link rel = "stylesheet" type="text/css" href="{% static 'show_info.css' %}"/>
+</head>
+<body>
+{% block content %}
+    <div class="container">
+        <div class="position-absolute start-50 translate-middle d-grip gap-2 d-md-flex justify-content-md-end" style="margin-top: 45vh; width: 700px">
+            <table class="table table-secondary">
+                <thead>
+                  <tr>
+                    <th scope="col" class="text-center">Название</th>
+                    <th scope="col" class="text-center">Автор</th>
+                    <th scope="col" class="text-center">Количество страниц</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                {% for book in books %}
+                  <tr>
+                    <td class="text-center">{{ book.name }}</td>
+                    <td class="text-center">{{ book.author.name }} {{ book.author.last_name }}</td>
+                    <td class="text-center">{{ book.page }}</td>
+                    <td><a href="{% url 'show_book' name_literature id_publishing book.id_user.id %}" class="btn btn-secondary">Открыть</a></td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

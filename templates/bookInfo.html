@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о книгах</title>
+    {% extends "base.html" %}
+    {% load static %}
+
+    <link rel = "stylesheet" type="text/css" href="{% static 'show_info.css' %}"/>
+</head>
+<body>
+{% block content %}
+    <div class="card">
+      <div class="ds-top"></div>
+      <div class="avatar-holder">
+        <img src={% static 'images/img.png' %}>
+      </div>
+      <div class="name">
+        {{ book.name }}
+      </div>
+      <div class="store">
+        <a href="{% url 'add_store' name_literature id_publishing book.id_user_id %}" type="button" class="btn btn-secondary">Добавить магазин</a>
+      </div>
+      <div class="ds-info">
+        <div class="ds pens">
+          <h6 title="Number of pens created by the user">Автор</h6>
+            {{ book.author.name }} {{ book.author.last_name }}
+        </div>
+        <div class="ds projects">
+          <h6 title="Number of projects created by the user">Страниц</h6>
+            {{ book.page }}
+        </div>
+      </div>
+        {% if stores|length > 0 %}
+        <table class="table table-light table-striped ds-skill">
+            <thead>
+            <tr>
+                <th scope="col">*</th>
+                <th scope="col">Store</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Location</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for store in stores %}
+            <tr>
+                <th scope="row">{{ store.number }}</th>
+                <td>{{ store.name }}</td>
+                <td>{{ store.cost }}</td>
+                <td>{{ store.location }}</td>
+                <td>
+                    <a href="{% url 'delete_store' name_literature id_publishing book.id_user_id store.number %}" type="button" class="btn btn-danger">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+{% endblock %}
+</body>
+</html>

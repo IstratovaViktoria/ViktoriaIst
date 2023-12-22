@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>:)</title>
+    {% extends "base.html" %}
+    {% load static %}
+    <link rel = "stylesheet" type="text/css" href="{% static 'show_info.css' %}"/>
+</head>
+<body>
+{% block content %}
+   <div class="container">
+        <div class="position-absolute start-50 translate-middle d-grip gap-2 d-md-flex justify-content-md-end" style="margin-top: 45vh">
+            {% for literature in literature %}
+                <a href="{% url 'book_ofLiterature' literature.name_literature %}" class="btn btn-primary" type="button">{{ literature.name_literature }}</a>
+            {% endfor %}
+        </div>
+   </div>
+{% endblock %}
+</body>
+</html>
